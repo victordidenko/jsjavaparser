@@ -43,7 +43,6 @@
 Compilation
     = Spacing CompilationUnit SUB? EOT;
 
-
 //=========================================================================
 //  JLS 3  Lexical Structure
 //=========================================================================
@@ -72,8 +71,8 @@ EOT = !_ ;
 
 Spacing
     = ( [ \t\r\n\u000C]+  // WhiteSpace
-      / "/*" _*+ "*/"     // TraditionalComment
-      / "//" _*+ [\r\n]   // EndOfLineComment
+      / "/*" (!"*/" _)* "*/"      // TraditionalComment
+      / "//" (![\r\n] _)* [\r\n]  // EndOfLineComment
       )* ;
 
 //-------------------------------------------------------------------------
@@ -397,7 +396,6 @@ STAR            =   "*"![=]   Spacing ;
 STAREQU         =   "*="      Spacing ;
 TILDE           =   "~"       Spacing ;
 
-
 //=========================================================================
 //  JLS 4  Types, Values and Variables
 //=========================================================================
@@ -487,14 +485,12 @@ WildcardBounds
     / SUPER ReferenceType
     ;
 
-
 //=========================================================================
 //  JLS 6  Names
 //=========================================================================
 
 QualIdent
     = Identifier (DOT Identifier)* ;
-
 
 //=========================================================================
 //  JLS 7  Packages
@@ -534,7 +530,6 @@ TypeDeclaration
     / InterfaceDeclaration
     / SEMI
     ;
-
 
 //=========================================================================
 //  JLS 8  Classes
@@ -766,7 +761,6 @@ EnumConstantModifier
 EnumBodyDeclarations
     = SEMI ClassBodyDeclaration* ;
 
-
 //=========================================================================
 //  JLS 9  Interfaces
 //=========================================================================
@@ -906,7 +900,6 @@ MarkerAnnotation
 
 SingleElementAnnotation
     = QualIdent LPAR ElementValue RPAR ;
-
 
 //=========================================================================
 //  JLS 10  Arrays
@@ -1065,7 +1058,6 @@ ResourceList
 
 Resource
     = VariableModifier* UnannType VariableDeclaratorId EQU Expression ;
-
 
 //=========================================================================
 //  JLS 15  Expressions
@@ -1331,3 +1323,7 @@ LambdaBody
 
 ConstantExpression
     = Expression ;
+
+/* http://mousepeg.sourceforge.net/Manual.pdf */
+
+_               =   .
